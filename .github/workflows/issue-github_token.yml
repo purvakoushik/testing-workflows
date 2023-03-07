@@ -1,0 +1,24 @@
+name: Creating issue on failure of a job
+
+on: workflow_dispatch
+
+jobs:
+  fail_job_to_create_issue_demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: first job step to pass and show some default variables
+        run: |
+          echo ${{ github.repository }}
+          echo ${{ github.run_id }}
+          echo ${{ github.workflow }}
+
+      - name: The job step which is going to fail
+        run: exit 1
+
+      - name: The job step to create issue when on basis on previous step
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{github.repository}}/issues \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{"title":"Issue created beacuse workflow failed:${{github.run_id}}","body":"This issue is created because the job failed in its second step in GH Action workflow- **${{github.workflow}}\n\n due to failure in ${{github.run_id}}"}'
