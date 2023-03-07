@@ -23,4 +23,5 @@ jobs:
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{secrets.GH_TOKEN}}"\
           --url "https://api.github.com/repos/${{github.repository}}/issues" \
+          -H "Content-Type: application/json" \
           -d '{"title":"Found failure","body":"job failure in the second step"}'
