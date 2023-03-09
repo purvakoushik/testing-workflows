@@ -17,10 +17,10 @@ jobs:
 
       - name: The job step to create issue when on basis on previous step
         if: ${{ failure() }}
-        run: |
-          curl -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{secrets.GH_TOKEN}}"\
-          --url "https://api.github.com/repos/${{github.repository}}/issues" \
-          -H "Content-Type: application/json" \
-          -d '{"title":"Found failure","body":"job failure in the second step"}'
+        uses: ManojCSE17/open-issue@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: found a bug
+          body: bug found
+          assignees: |
+            purvakoushik
