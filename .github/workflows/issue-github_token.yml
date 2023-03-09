@@ -6,21 +6,19 @@ jobs:
   fail_job_to_create_issue_demo:
     runs-on: ubuntu-latest
     steps:
+      - name: load the code to runner
+        uses: actions/checkout@v3
+
       - name: first job step to pass and show some default variables
         run: |
           echo ${{ github.repository }}
           echo ${{ github.run_id }}
           echo ${{ github.workflow }}
 
-      - name: The job step which is going to fail
-        run: exit 1
-
-      - name: The job step to create issue when on basis on previous step
-        if: ${{ failure() }}
-        uses: ManojCSE17/open-issue@v1.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: found a bug
-          body: bug found
-          assignees: |
-            purvakoushik
+      - name: The job step to create an issue
+        run: |
+          curl --request POST \
+          --url "https://api.github.com/repos/purvakoushik/testing-workflows/isuues" \
+          --header "Authorization: Bearer ${{secrets.GITHUB_TOKEN}}" \
+          --header "Content-Type: application/json" \
+          --data "{"title":"found a bug","body":"found a bug"}"
