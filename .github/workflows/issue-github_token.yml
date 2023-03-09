@@ -20,4 +20,4 @@ jobs:
           curl -X POST -H "Authorization: token ${{secrets.GITHUB_TOKEN}}" \
           -H "Content-Type: application/json" \
           -d "{\"title\":\"bug\",\"body\":\"found a bug\"}" \
-          "https://api.github.com/repos/purvakoushik/testing-workflow/issues"
+          "https://api.github.com/repos/purvakoushik/testing-workflows/issues"
