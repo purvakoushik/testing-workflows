@@ -19,6 +19,14 @@ jobs:
             ${{runner.OS}}-build-
             ${{runner.OS}}-
 
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "13.x"
+
+      - name: Install Dependencies
+        run: npm install
+        
       - name: install dependencies
         run: npm install
 
