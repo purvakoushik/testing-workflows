@@ -19,4 +19,4 @@ jobs:
       - name: download
         uses: actions/download-artifact@v3
         with:
-          name:  name
+          name: work
