@@ -9,4 +9,14 @@ jobs:
       - name: test a command
         run: |
           echo hello world > world.txt
-          cat world.txt
+
+      - name: artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: work
+          path: world.txt
+
+      - name: download
+        uses: actions/download-artifact@v3
+        with:
+          name:  name
