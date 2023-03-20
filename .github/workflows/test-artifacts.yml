@@ -1,0 +1,12 @@
+name: artifacts-workflow
+on:
+  workflow_dispatch:
+
+jobs:
+  build_artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test a command
+        run: |
+          echo hello world > world.txt
+          cat world.txt
