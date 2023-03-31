@@ -1,0 +1,42 @@
+name: Terraform Azure Workflow
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
+
+jobs:
+  terraform:
+    env:
+      ARM_CLIENT_ID: ${{secrets.CEQ_AZURE_SANDBOX2_TF_ARM_CLIENT_ID}}
+      ARM_CLIENT_SECRET: ${{secrets.CEQ_AZURE_SANDBOX2_TF_ARM_CLIENT_SECRET}}
+      ARM_SUBSCRIPTION_ID: ${{secrets.CEQ_AZURE_SANDBOX2_TF_ARM_SUBS_ID}}
+      ARM_TENANT_ID: ${{secrets.CEQ_AZURE_SANDBOX2_TF_ARM_TENANT_ID}}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId":"${{ env.ARM_CLIENT_ID }}","clientSecret":"${{ env.ARM_CLIENT_SECRET }}","subscriptionId":"${{ env.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ env.ARM_TENANT_ID }}"}'
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
